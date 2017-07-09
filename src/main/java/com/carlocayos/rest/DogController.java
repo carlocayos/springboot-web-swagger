@@ -101,4 +101,24 @@ public class DogController
     {
         service.delete(id);
     }
+
+    @RequestMapping(value = "/age/{dogAge}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DogDTO> findDogByAge(@PathVariable int dogAge)
+    {
+        return service.findByAge(dogAge);
+    }
+
+    @RequestMapping(value = "/breed/{dogBreed}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public DogDTO findDogByBreed(@PathVariable String dogBreed)
+    {
+        return service.findByBreed(dogBreed);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public Map<String, String> handleException()
+    {
+        Map map = new HashMap<String, String>();
+        map.put("error", "Exception thrown");
+        return map;
+    }
 }

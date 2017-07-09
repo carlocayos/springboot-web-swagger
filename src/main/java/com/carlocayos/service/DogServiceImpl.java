@@ -58,7 +58,6 @@ public class DogServiceImpl
         Dog dog = repository.findOne(id);
         if (dog == null)
         {
-//            throw new TaskNotFoundException(id);
             throw new NullPointerException("Not found");
         }
         else
@@ -66,4 +65,22 @@ public class DogServiceImpl
             return dog;
         }
     }
+
+    public List<DogDTO> findByAge(int age)
+    {
+        List<Dog> dogs = repository.findByAge(age);
+        List<DogDTO> dogDTOS = dogs.stream()
+                .map(dog -> new DogDTO(dog.getId(), dog.getName(), dog.getBreed(), dog.getAge()))
+                .collect(Collectors.toList());
+
+        return dogDTOS;
+    }
+
+    public DogDTO findByBreed(String breed)
+    {
+        Dog dog = repository.findDogByBreed(breed);
+        DogDTO dogDTO = new DogDTO(dog.getId(), dog.getName(), dog.getBreed(), dog.getAge());
+        return dogDTO;
+    }
+
 }
