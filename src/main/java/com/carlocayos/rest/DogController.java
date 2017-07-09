@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,10 +118,9 @@ public class DogController
     }
 
     @ExceptionHandler(Exception.class)
-    public Map<String, String> handleException()
+    public void handleException(Exception exception, HttpServletResponse response) throws
+            IOException
     {
-        Map map = new HashMap<String, String>();
-        map.put("error", "Exception thrown");
-        return map;
+        response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
     }
 }
